@@ -1,0 +1,24 @@
+Make the org-mode link exported as HTML open in a new tab.
+
+* Usage
+
+#+begin_src elisp
+(with-eval-after-load "org"
+  (require 'org-newtab-link))
+#+end_src
+
+In org-mode:
+
+#+begin_src org
+,#+html_link_newtab: t
+,* Chapter1
+
+[​[https://example.com/]] and [​[https://example.org/]] will open in new tabs.
+
+,#+attr_html: :target _self
+[​[https://example.com/]] will open in the same tab because the target attribute is explicitly specified. [​[https://example.org/]] will open in a new tab because attr_html does not affect the second link in the paragraph .
+
+[​[*Chapter1][Chapter1]] will open in the same tab.
+#+end_src
+
+The variable ~org-newtab-link-enabled~ can be a file-local variable or a directory-local variable.
