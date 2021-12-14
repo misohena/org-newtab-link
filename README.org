@@ -1,4 +1,4 @@
-Make the org-mode link exported as HTML open in a new tab.
+Open org-mode links exported as HTML in a new tab.
 
 * Usage
 
