@@ -24,12 +24,16 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'ox))
+
 ;;;; Filter Function
 
 (defun org-newtab-link-filter (s backend _info)
   (if (and
        ;;@todo Support <a data-ex=">" href=...>
-       (org-export-derived-backend-p backend 'html) ;; html only
+       (with-no-warnings ;; lazy load ox.el
+         (org-export-derived-backend-p backend 'html)) ;; html only
        (not (string-match "\\`[^>]* target=\"" s)) ;; has no target=
        (not (string-match "\\`[^>]* rel=\"" s)) ;; has no rel=
        (string-match "\\`[^>]* href=\"[^#]" s) ;;not internal link
@@ -54,7 +58,8 @@
 
 (defun org-newtab-link-modify-html-backend ()
   (require 'ox-html)
-  (let ((backend (org-export-get-backend 'html)))
+  (let ((backend (with-no-warnings ;;lazy load ox.el
+                   (org-export-get-backend 'html))))
     ;; Add options defined by org-newtab-link-options-alist to backend
     (let ((backend-options (org-export-backend-options backend))
           (new-option-names (mapcar #'car org-newtab-link-options-alist)))
